@@ -4,35 +4,28 @@ using UnityEngine;
 
 public class PickupInteractionController : MonoBehaviour, IInteractable
 {
-    [SerializeField]
-    private float interactionTime = 2.0f;
+    private float _size = 3f;
 
-    private float interactionTimeLeft;
-    //private bool interactable = true;
+    public Item _item;
+    private Vector3 _sizeVector;
 
-
-    void Start()
+    public void Start()
     {
-        interactionTimeLeft = interactionTime;
+        _sizeVector = new Vector3(_size, _size);
     }
 
-
-    /// <summary>
-    /// Reduces the completion time in seconds since the last frame from interactionTimeLeft.
-    /// Calls InteractionEvent when interactionTimeLeft reaches zero.
-    /// </summary>
     public void Interact()
     {
-        interactionTimeLeft -= Time.deltaTime;
-        if (interactionTimeLeft <= 0.0f) InteractionEvent();
-        Debug.Log("Interaction. Interaction time left: " + interactionTimeLeft);
-    }
+        GameObject go = new GameObject();
+        SpriteRenderer sr = go.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
 
-    
-    public void InteractionEvent()
-    {
-        //interactable = false;
+        sr.sprite = _item.collectedSprite;
+
+        //go.transform position = new Vector2(_item.pickedUpIconX, _item.pickedUpIconY);
+        Vector2 point = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.9f, Screen.height * 0.8f));
+        go.transform.position = point;
+        go.transform.localScale = _sizeVector;
+        go.layer = 13;  //HUD
         Destroy(gameObject);
-        Debug.Log("Counter interaction event.");
     }
 }

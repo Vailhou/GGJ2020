@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class PlayerInteractionController : MonoBehaviour
 {
+    [SerializeField]
+    private LayerMask layerMask;
 
     [SerializeField]
     private KeyCode interactionKey = KeyCode.I;
 
     [SerializeField]
     private float
-        maxRayDistance = 2.0f;
+        maxRayDistance = 6.0f;
 
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(interactionKey))
+        if (Input.GetKeyDown(interactionKey))
         {
             TryInteraction();
         }
@@ -28,25 +30,32 @@ public class PlayerInteractionController : MonoBehaviour
     /// </summary>
     public void TryInteraction()
     {
-
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = -transform.up;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
+        RaycastHit2D[] hitList = new RaycastHit2D[5];
+        ContactFilter2D cf = new ContactFilter2D() { layerMask = layerMask };
         Debug.DrawRay(transform.position, rayDirection * maxRayDistance, Color.red, 0.0f);
 
-        if (Physics2D.Raycast(rayOrigin, rayDirection, maxRayDistance))
+        if (0 < Physics2D.Raycast(rayOrigin, rayDirection, cf, hitList, maxRayDistance))
         {
-            MonoBehaviour[] targetList = hit.transform.gameObject.GetComponents<MonoBehaviour>();
-            Debug.Log(hit.collider.name);
-            foreach (MonoBehaviour mb in targetList)
+            //MonoBehaviour[] targetList = hit.transform.gameObject.GetComponents<MonoBehaviour>();
+            foreach (RaycastHit2D hit in hitList)
             {
-                Debug.Log("Sending interaction call to interactable target.");
+
+                if (!hit)
+                {
+                    Debug.Log("Hit null.");
+                    return;
+                }
+
+                MonoBehaviour mb = hit.collider.gameObject.GetComponent<MonoBehaviour>();
+
                 if (mb is IInteractable)
                 {
                     IInteractable interactable = (IInteractable)mb;
                     interactable.Interact();
-                    Debug.Log("Sending interaction call to interactable target.");
+                    Debug.Log("Sending interaction call " + mb.name);
                 }
             }
         }
