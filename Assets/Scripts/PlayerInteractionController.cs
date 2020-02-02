@@ -7,10 +7,8 @@ public class PlayerInteractionController : MonoBehaviour
     [SerializeField]
     private LayerMask _layerMask;
 
-    public static List<Item> _items = new List<Item>();
-
     private KeyCode _interactionKey = KeyCode.Return;
-    private float _maxRayDistance = 6.0f;
+    private float _maxRayDistance = 1.0f;
 
 
     private void FixedUpdate()
