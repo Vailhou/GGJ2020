@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PickupInteractionController : MonoBehaviour, IInteractable
 {
-    private float _size = 3f;
-
     public Item _item;
+    private float _size = 3f;
     private Vector3 _sizeVector;
 
     public void Start()
@@ -16,6 +15,9 @@ public class PickupInteractionController : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        PlayerInteractionController._items.Add(_item);
+        GetComponent<AudioSource>().Play();
+
         GameObject go = new GameObject();
         SpriteRenderer sr = go.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
 
@@ -26,6 +28,6 @@ public class PickupInteractionController : MonoBehaviour, IInteractable
         go.transform.position = point;
         go.transform.localScale = _sizeVector;
         go.layer = 13;  //HUD
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

@@ -5,19 +5,17 @@ using UnityEngine;
 public class PlayerInteractionController : MonoBehaviour
 {
     [SerializeField]
-    private LayerMask layerMask;
+    private LayerMask _layerMask;
 
-    [SerializeField]
-    private KeyCode interactionKey = KeyCode.I;
+    public static List<Item> _items = new List<Item>();
 
-    [SerializeField]
-    private float
-        maxRayDistance = 6.0f;
+    private KeyCode _interactionKey = KeyCode.Return;
+    private float _maxRayDistance = 6.0f;
 
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(interactionKey))
+        if (Input.GetKeyDown(_interactionKey))
         {
             TryInteraction();
         }
@@ -34,10 +32,10 @@ public class PlayerInteractionController : MonoBehaviour
         Vector2 rayDirection = -transform.up;
 
         RaycastHit2D[] hitList = new RaycastHit2D[5];
-        ContactFilter2D cf = new ContactFilter2D() { layerMask = layerMask };
-        Debug.DrawRay(transform.position, rayDirection * maxRayDistance, Color.red, 0.0f);
+        ContactFilter2D cf = new ContactFilter2D() { layerMask = _layerMask };
+        Debug.DrawRay(transform.position, rayDirection * _maxRayDistance, Color.red, 0.0f);
 
-        if (0 < Physics2D.Raycast(rayOrigin, rayDirection, cf, hitList, maxRayDistance))
+        if (0 < Physics2D.Raycast(rayOrigin, rayDirection, cf, hitList, _maxRayDistance))
         {
             //MonoBehaviour[] targetList = hit.transform.gameObject.GetComponents<MonoBehaviour>();
             foreach (RaycastHit2D hit in hitList)

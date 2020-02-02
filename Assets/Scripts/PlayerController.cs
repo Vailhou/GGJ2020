@@ -16,27 +16,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Vector3 vector = Vector3.zero;
 
-        if (Input.GetKey(_up))
-        {
-            transform.Translate(0, Time.deltaTime * -_speed, 0);
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
-        }
+        vector.x = -Input.GetAxis("Horizontal");
+        vector.y = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(_down))
-        {
-            transform.Translate(0, Time.deltaTime * -_speed, 0);
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-        }
-        if (Input.GetKey(_left))
-        {
-            transform.Translate(0, Time.deltaTime * -_speed, 0);
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, -90.0f);
-        }
-        if (Input.GetKey(_right))
-        {
-            transform.Translate(0, Time.deltaTime * -_speed, 0);
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
-        }
+        if (vector.magnitude == 0) return;
+
+        Vector3 dir = new Vector3(0, 0, vector.x * 90f);
+        var angle = Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
+        transform.eulerAngles = new Vector3(0, 0, angle + 180);
+
+        transform.Translate(0, Time.deltaTime * -_speed, 0);
     }
 }
