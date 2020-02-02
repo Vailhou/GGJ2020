@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/takkahuone.unity
+    path: Assets/Scenes/StarScreen.unity
+    guid: af62cef1904732d448f40f95ede91040
+  - enabled: 1
+    path: Assets/Scenes/FireplaceRoom.unity
     guid: 7e740299e0016960d96087ef7e003f56
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: d1b55b932234f2941b5ad4ae68562289
   m_configObjects: {}

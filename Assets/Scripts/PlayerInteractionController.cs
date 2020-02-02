@@ -29,7 +29,7 @@ public class PlayerInteractionController : MonoBehaviour
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = -transform.up;
 
-        RaycastHit2D[] hitList = new RaycastHit2D[5];
+        RaycastHit2D[] hitList = new RaycastHit2D[10];
         ContactFilter2D cf = new ContactFilter2D() { layerMask = _layerMask };
         Debug.DrawRay(transform.position, rayDirection * _maxRayDistance, Color.red, 0.0f);
 
